@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Plataforma](https://img.shields.io/badge/Plataforma-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
 [![Zero Dependências de Runtime](https://img.shields.io/badge/Depend%C3%AAncias%20de%20Runtime-Zero-brightgreen)]()
-[![Version](https://img.shields.io/badge/Versão-1.3.0-purple)]()
+[![Version](https://img.shields.io/badge/Versão-1.4.0-purple)]()
 
 <br>
 
@@ -67,7 +67,7 @@ A saída foi projetada para ser **colada diretamente em interfaces de chat de IA
 | 🔀 **Modo Git diff** | `--diff` — varre apenas arquivos alterados |
 | 🤖 **Injeção de instrução para IA** | Adiciona um prompt customizado no topo do output |
 | 🌗 **Tema Dark / Light** | Toggle no header — troca instantaneamente |
-| 🧪 **33 testes automatizados** | Cobertura de scanner, renderer, gitignore e tokens |
+| 🧪 **36 testes automatizados** | Cobertura de scanner, renderer, gitignore, tokens e segurança do modo diff |
 | 📏 **Limites de segurança** | Arquivos truncados em 1 000 linhas; scan para em 2 000 arquivos |
 | 🌍 **Multiplataforma** | Windows, macOS, Linux |
 | 📦 **Zero dependências de runtime** | Apenas a biblioteca padrão do Python é necessária para executar pelo código-fonte |

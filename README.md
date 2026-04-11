@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
 [![Zero Runtime Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-Zero-brightgreen)]()
-[![Version](https://img.shields.io/badge/Version-1.3.0-purple)]()
+[![Version](https://img.shields.io/badge/Version-1.4.0-purple)]()
 
 <br>
 
@@ -67,7 +67,7 @@ The output is designed to be **pasted directly into AI chat interfaces** (ChatGP
 | 🔀 **Git diff mode** | `--diff` — only scan files changed since last commit |
 | 🤖 **AI instruction injection** | Prepend a custom prompt to the output |
 | 🌗 **Dark / Light theme** | Toggle in the header — instant switch |
-| 🧪 **Automated tests** | 33 unit tests covering scanner, renderer, gitignore parsing, and token estimation |
+| 🧪 **Automated tests** | 36 unit tests covering scanner, renderer, gitignore parsing, token estimation, and diff safety |
 | 📏 **Safety limits** | Files truncated at 1 000 lines; scan stops at 2 000 files |
 | 🌍 **Cross-platform** | Windows, macOS, Linux |
 | 📦 **Zero runtime dependencies** | Only the Python standard library is required to run from source |

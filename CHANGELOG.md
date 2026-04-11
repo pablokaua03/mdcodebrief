@@ -6,6 +6,23 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.4.0] — 2026-04-11
+
+### Changed
+- **Compact, resizable interface** — reduced the default window size, added proper resize behavior, and tightened spacing so the app feels lighter on smaller screens
+- **App branding refresh** — the GUI now uses the bundled `icon.ico` as the real window/app icon instead of the default feather-style fallback
+- **Safer diff flow** — diff mode now behaves more predictably when there are no changed files, instead of surprising the user with a full-project export
+
+### Added
+- **36 unit tests** — expanded coverage for hidden-file filtering, diff behavior, renderer output, and related safety cases
+
+### Fixed
+- **Hidden file filtering** — dotfiles such as `.env` stay excluded by default when hidden files are not enabled
+- **Git diff detection** — changed-file exports now better reflect staged, unstaged, and new-file workflows
+- **Clipboard reliability** — clipboard writes now happen on the Tk main thread to avoid intermittent GUI issues
+
+---
+
 ## [1.3.0] — 2025-04-10
 
 ### Changed
