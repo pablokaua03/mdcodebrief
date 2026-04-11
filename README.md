@@ -38,6 +38,20 @@ The output is designed to be **pasted directly into AI chat interfaces** (ChatGP
 
 ---
 
+## When to use it
+
+| Situation | How |
+|---|---|
+| **Ask an AI to review your code** | Run on the full project, paste the `.md` |
+| **Code review / PR analysis** | Use `--diff` to export only changed files |
+| **Onboarding a new dev** | Generate a full snapshot of the codebase |
+| **Debug with AI help** | Add `-p "Find the bug in the auth flow"` |
+| **Refactor with AI** | Add `-p "Refactor this to TypeScript"` |
+
+> **When NOT to use:** projects with thousands of files or large generated assets — use `--diff` mode or point to a specific subfolder instead.
+
+---
+
 ## Features
 
 | Feature | Detail |
@@ -53,6 +67,7 @@ The output is designed to be **pasted directly into AI chat interfaces** (ChatGP
 | 🔀 **Git diff mode** | `--diff` — only scan files changed since last commit |
 | 🤖 **AI instruction injection** | Prepend a custom prompt to the output |
 | 🌗 **Dark / Light theme** | Toggle in the header — instant switch |
+| 🧪 **Automated tests** | 33 unit tests covering scanner, renderer, gitignore parsing, and token estimation |
 | 📏 **Safety limits** | Files truncated at 1 000 lines; scan stops at 2 000 files |
 | 🌍 **Cross-platform** | Windows, macOS, Linux |
 | 📦 **Zero dependencies** | Only Python standard library required |
@@ -121,6 +136,14 @@ python mdcodebrief.py /path/to/project --diff --copy -p "Review this PR"
 
 # Linux / macOS
 chmod +x build.sh && ./build.sh
+```
+
+---
+
+## Run tests
+
+```bash
+python -m unittest discover tests/
 ```
 
 ---
