@@ -1,4 +1,4 @@
-# Contributing to mdcodebrief
+# Contributing to Contexta
 
 Thank you for considering a contribution!
 
@@ -7,7 +7,7 @@ Thank you for considering a contribution!
 - The tool must remain **zero runtime dependency** for source usage (Python standard library only)
 - Optional packaging tools such as **PyInstaller** must stay out of runtime code paths
 - Python **3.10+** syntax is acceptable
-- Every PR must keep the project runnable with `python mdcodebrief.py`
+- Every PR must keep the project runnable with `python contexta.py`
 
 ## How to contribute
 

@@ -70,9 +70,10 @@ class TestReadFileSafe(unittest.TestCase):
                                          dir=TEST_TMP_ROOT) as f:
             f.write("hello world\n")
             path = Path(f.name)
-        content, truncated = read_file_safe(path)
+        content, truncated, total_lines = read_file_safe(path)
         self.assertIn("hello world", content)
         self.assertFalse(truncated)
+        self.assertEqual(total_lines, 1)
         path.unlink()
 
     def test_truncates_long_file(self):
@@ -82,8 +83,9 @@ class TestReadFileSafe(unittest.TestCase):
             for i in range(1100):
                 f.write(f"line {i}\n")
             path = Path(f.name)
-        content, truncated = read_file_safe(path)
+        content, truncated, total_lines = read_file_safe(path)
         self.assertTrue(truncated)
+        self.assertEqual(total_lines, 1100)
         path.unlink()
 
     def test_reads_latin1_bytes(self):
@@ -91,9 +93,10 @@ class TestReadFileSafe(unittest.TestCase):
         with tempfile.NamedTemporaryFile(suffix=".txt", delete=False, dir=TEST_TMP_ROOT) as f:
             f.write(bytes(range(256)))
             path = Path(f.name)
-        content, truncated = read_file_safe(path)
+        content, truncated, total_lines = read_file_safe(path)
         self.assertIsInstance(content, str)
         self.assertFalse(truncated)
+        self.assertGreaterEqual(total_lines, 1)
         path.unlink()
 
 

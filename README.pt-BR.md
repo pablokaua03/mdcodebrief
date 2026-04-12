@@ -1,136 +1,246 @@
 <div align="center">
 
-# ⚡ mdcodebrief
+# Contexta
 
-**Escaneia qualquer projeto e gera um único arquivo `.md` com contexto completo de código, pronto para colar em interfaces de IA. Zero dependências de runtime, GUI + CLI.**
+**Packs de contexto curados para debug, onboarding, review, refactor e handoff entre IAs. O Contexta analisa o projeto primeiro e depois exporta o contexto mais útil para a tarefa.**
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Plataforma](https://img.shields.io/badge/Plataforma-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
 [![Zero Dependências de Runtime](https://img.shields.io/badge/Depend%C3%AAncias%20de%20Runtime-Zero-brightgreen)]()
-[![Version](https://img.shields.io/badge/Versão-1.4.0-purple)]()
+[![Versão](https://img.shields.io/badge/Vers%C3%A3o-1.4.0-purple)]()
 
 <br>
 
-[<img src="https://img.shields.io/badge/⬇%20Download%20para%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest/download/mdcodebrief.exe)
+[<img src="https://img.shields.io/badge/Download%20para%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest/download/contexta.exe)
 &nbsp;&nbsp;
 [<img src="https://img.shields.io/badge/Todas%20as%20Releases-333?style=for-the-badge&logo=github&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest)
 
-> Sem instalação. Só baixar e executar.
+> Sem instalação. É baixar e usar, ou executar pelo código-fonte com Python.
 
 <br>
 
-![mdcodebrief screenshot](assets/assets/screenshot.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/white.png">
+  <img alt="Preview da interface do Contexta" src="assets/dark.png">
+</picture>
 
 </div>
 
 ---
 
-## O que é?
+## O que o Contexta exporta
 
-`mdcodebrief` é uma ferramenta desktop leve que varre recursivamente uma pasta de projeto e gera um único arquivo Markdown bem estruturado contendo:
+O Contexta não só despeja arquivos. Ele monta um pack de contexto pensado para leitura humana e para uso com IA. Dependendo do pack, do modo e da tarefa, a saída pode incluir:
 
-- **Árvore visual de diretórios** do projeto inteiro
-- Cada **arquivo-fonte** com blocos de código com syntax highlighting
-- Caminhos relativos, tamanhos de arquivo e truncagem automática
+- resumo do projeto com tecnologias, entry points, propósito provável e módulos centrais
+- seção `Read This First` para orientar a leitura
+- fluxo principal de execução (`Main Flow`)
+- arquivos centrais, arquivos de apoio, testes relacionados e contexto de arquivos alterados
+- mapa de relacionamentos e hotspots/riscos
+- payload em Markdown pronto para colar no ChatGPT, Claude, Gemini, Copilot ou outra ferramenta
 
-A saída foi projetada para ser **colada diretamente em interfaces de chat de IA** (ChatGPT, Claude, Gemini, etc.) para que o modelo tenha contexto completo do seu projeto.
+No modo `full`, o código continua presente. A inteligência do Contexta entra em volta do payload, não no lugar dele.
 
 ---
 
-## Quando usar
+## Onde ele ajuda de verdade
 
-| Situação | Como |
-|---|---|
-| **Pedir uma revisão de código para IA** | Rode no projeto completo e cole o `.md` |
-| **Code review / análise de PR** | Use `--diff` para exportar apenas os arquivos alterados |
-| **Onboarding de um novo dev** | Gere um snapshot completo da base de código |
-| **Debugar com ajuda de IA** | Adicione `-p "Encontre o bug no fluxo de autenticação"` |
-| **Refatorar com IA** | Adicione `-p "Refatore isso para TypeScript"` |
+Use o Contexta quando você quer:
 
-> **Quando NÃO usar:** projetos com milhares de arquivos ou assets gerados — use o modo `--diff` ou aponte para uma subpasta específica.
+- explicar um projeto rapidamente para outra pessoa ou outro modelo
+- revisar mudanças com contexto próximo
+- debugar com arquivos alterados e hotspots já organizados
+- fazer onboarding em uma base desconhecida
+- passar trabalho de uma IA para outra sem reconstruir contexto do zero
 
------
+---
 
-## Recursos
+## Recursos principais
 
 | Recurso | Detalhe |
 |---|---|
-| 🖥️ **Interface visual** | Interface limpa com toggle de tema dark/light |
-| ⌨️ **Modo CLI** | Execute sem interface para scripts ou CI |
-| 🌳 **Árvore de diretórios** | Visualização ASCII no topo de cada arquivo gerado |
-| 🎨 **Syntax highlighting** | 50+ extensões mapeadas |
-| 🔒 **Filtragem inteligente** | Ignora `node_modules`, `__pycache__`, `.git`, build dirs, lock files, binários |
-| 📋 **Suporte nativo ao `.gitignore`** | Lê e respeita as regras do `.gitignore` automaticamente |
-| 📋 **Copiar para clipboard** | Um clique na GUI ou flag `--copy` na CLI |
-| 🧮 **Estimativa de tokens** | Mostra `~Xk tokens` com recomendações de modelos |
-| 🔀 **Modo Git diff** | `--diff` — varre apenas arquivos alterados |
-| 🤖 **Injeção de instrução para IA** | Adiciona um prompt customizado no topo do output |
-| 🌗 **Tema Dark / Light** | Toggle no header — troca instantaneamente |
-| 🧪 **36 testes automatizados** | Cobertura de scanner, renderer, gitignore, tokens e segurança do modo diff |
-| 📏 **Limites de segurança** | Arquivos truncados em 1 000 linhas; scan para em 2 000 arquivos |
-| 🌍 **Multiplataforma** | Windows, macOS, Linux |
-| 📦 **Zero dependências de runtime** | Apenas a biblioteca padrão do Python é necessária para executar pelo código-fonte |
+| GUI + CLI | Interface desktop para uso diário e linha de comando para script/automação |
+| Context Packs | `custom`, `chatgpt`, `onboarding`, `pr_review`, `debug`, `backend`, `frontend`, `changes_related` |
+| Context Modes | `full`, `debug`, `feature`, `diff`, `onboarding`, `refactor` |
+| Compression Modes | `full`, `balanced`, `focused`, `signatures` |
+| Saída orientada por tarefa | Molda o pack para explicação, bug report, code review, refactor, testes, dead code ou AI handoff |
+| Relationship Map | Mostra dependências locais e testes provavelmente relacionados |
+| Changed Files + Context | Puxa arquivos alterados e expande para o contexto mais relevante |
+| Selection reasons | Explica por que cada arquivo entrou |
+| Read This First + Main Flow | Facilita leitura rápida por humanos e por modelos |
+| Estimativa de tokens | Mostra uma noção aproximada de custo/tamanho |
+| Builds com PyInstaller | Gera `contexta.exe` e `contexta-safe` |
+
+---
+
+## Packs, modos e compressão
+
+### Context packs
+
+- `onboarding`: melhor ponto de partida para entender uma base nova
+- `pr_review`: enfatiza revisão e mudanças recentes
+- `debug`: sobe arquivos suspeitos e alterados
+- `backend` / `frontend`: puxam mais contexto para esse lado da aplicação
+- `changes_related`: começa no git diff e expande para o entorno
+- `custom`: deixa tudo nas suas mãos
+
+### Context modes
+
+- `full`: orientação rápida + payload completo dos arquivos selecionados
+- `debug`: prioriza hotspots, mudanças recentes e caminhos de falha
+- `feature`: sesga a seleção em torno do `focus`
+- `diff`: parte das mudanças do git e do contexto vizinho
+- `onboarding`: gera uma leitura mais explicativa
+- `refactor`: destaca módulos centrais e arquivos conectados
+
+### Compression modes
+
+- `full`: preserva mais corpo bruto dos arquivos
+- `balanced`: mistura narrativa, trechos e payload completo dos mais importantes
+- `focused`: corta agressivamente em favor da tarefa atual
+- `signatures`: visão estrutural rápida com pouco token
 
 ---
 
 ## Início rápido
 
-### Opção A — Baixar o executável (sem Python)
+### Opção A: executável do Windows
 
-1. Baixe o `mdcodebrief.exe` pelo botão acima
-2. Dê duplo clique para executar
+1. Baixe `contexta.exe`
+2. Execute
+3. Escolha a pasta do projeto
+4. Selecione pack, modo, tarefa e compressão
+5. Gere o pack e cole o Markdown na IA
 
-> ⚠️ **Aviso do Windows SmartScreen:** Clique em **"Mais informações"** → **"Executar mesmo assim"**. Isso é normal para ferramentas open source sem certificado de assinatura pago. Você também pode executar direto pelo código com `python mdcodebrief.py`.
+> Se o Windows implicar com o executável onefile, o build `dist/contexta-safe/` costuma passar com menos atrito.
 
-### Opção B — Executar pelo código fonte
+### Opção B: rodar pelo código-fonte
 
 ```bash
 git clone https://github.com/pablokaua03/mdcodebrief.git
 cd mdcodebrief
-python mdcodebrief.py
+python contexta.py
 ```
 
-O `mdcodebrief` em si usa apenas a biblioteca padrão do Python. Em algumas distribuições Linux, o `tkinter` é distribuído como pacote de sistema separado, como `python3-tk`.
-
-### Modo CLI
-
-```bash
-python mdcodebrief.py /caminho/para/projeto
-python mdcodebrief.py /caminho/para/projeto -p "Encontre o memory leak"
-python mdcodebrief.py /caminho/para/projeto --diff --copy
-python mdcodebrief.py /caminho/para/projeto --diff --copy -p "Revise este PR"
-```
+O Contexta em si usa apenas a biblioteca padrão do Python em runtime. Em algumas distros Linux, o `tkinter` pode vir como pacote separado, como `python3-tk`.
 
 ---
 
-## Opções CLI
+## Exemplos de CLI
+
+```bash
+python contexta.py /caminho/para/projeto
+python contexta.py /caminho/para/projeto --pack onboarding
+python contexta.py /caminho/para/projeto --mode debug --task bug_report --focus "auth flow"
+python contexta.py /caminho/para/projeto --pack pr_review --diff --copy
+python contexta.py /caminho/para/projeto --task ai_handoff --compression balanced --focus "theme"
+```
+
+### Opções da CLI
 
 | Flag | Descrição |
 |---|---|
-| `--hidden` | Incluir pastas/arquivos ocultos |
-| `--unknown` | Incluir extensões não reconhecidas |
-| `--diff` | Modo Git diff — apenas arquivos alterados |
-| `--staged` | Apenas arquivos staged (`git diff --cached`) |
-| `-p / --prompt` | Injeta instrução de IA no topo |
-| `-c / --copy` | Copia output para clipboard |
-| `-o / --output` | Caminho de saída personalizado |
+| `--hidden` | Inclui pastas/arquivos ocultos |
+| `--unknown` | Inclui extensões não reconhecidas |
+| `--diff` | Prefere contexto baseado em git diff |
+| `--staged` | Usa apenas mudanças staged |
+| `-p / --prompt` | Adiciona uma instrução ou objetivo customizado |
+| `--focus` | Influencia score, ordem, excerpts e contexto relacionado |
+| `--mode` | Modo de seleção |
+| `--ai` | Perfil de IA alvo |
+| `--task` | Perfil de tarefa |
+| `--compression` | Estratégia de compressão |
+| `--pack` | Pack predefinido |
+| `-c / --copy` | Copia a saída para o clipboard |
+| `-o / --output` | Caminho de saída customizado |
 | `--version` | Exibe a versão |
 
 ---
 
-## Guia de estimativa de tokens
+## Dicas de prompting por IA alvo
 
-| Tokens | Modelos recomendados |
-|---|---|
-| < 8k | Maioria dos modelos |
-| 8k – 32k | GPT-4o · Claude Sonnet · Gemini Flash |
-| 32k – 128k | Claude 200k · Gemini 1.5 Pro |
-| > 128k | Gemini 1.5 Pro 1M |
+### Generic LLM
+
+- Geralmente funciona bem:
+  - tarefa clara
+  - formato de saída explícito
+- Geralmente evite:
+  - pedido vago sem definição de pronto
+  - muitas tarefas sem prioridade
+- Perfil de uso aproximado:
+  - bom padrão para a maioria dos casos
+  - custo e latência variam bastante por provedor
+
+### ChatGPT
+
+- Geralmente funciona bem:
+  - instruções curtas, mas específicas
+  - definição clara do resultado esperado
+  - exemplo curto quando ajuda
+- Geralmente evite:
+  - pedir chain-of-thought oculto
+  - misturar análise arquitetural e implementação sem prioridade
+- Perfil de uso aproximado:
+  - responde bem a estrutura explícita
+  - tamanho da saída e esforço de raciocínio podem aumentar a latência
+
+### Claude
+
+- Geralmente funciona bem:
+  - pedido estruturado
+  - contexto de arquitetura + objetivo claro
+  - saída organizada por seções
+- Geralmente evite:
+  - prompt amplo demais sem ordenação
+  - pedir exaustividade quando uma resposta ranqueada basta
+- Perfil de uso aproximado:
+  - lida bem com contexto mais rico
+  - ainda se beneficia de um resumo curto no topo
+
+### Gemini
+
+- Geralmente funciona bem:
+  - contexto mais amplo com prioridades explícitas
+  - instruções claras de formatação
+- Geralmente evite:
+  - assumir que janela grande dispensa estrutura
+  - juntar várias tarefas sem relação em uma só rodada
+- Perfil de uso aproximado:
+  - confortável com packs maiores
+  - qualidade ainda depende muito de clareza e escopo
+
+### Copilot / agentes de código
+
+- Geralmente funciona bem:
+  - arquivos, restrições e estado final bem definidos
+  - pedidos orientados à implementação
+- Geralmente evite:
+  - objetivo aberto sem comportamento-alvo
+  - pedir raciocínio oculto em vez de uma justificativa breve
+- Perfil de uso aproximado:
+  - melhor para tarefas concretas de código
+  - funciona melhor com escopo pequeno e critérios claros
 
 ---
 
-## Compilar executável
+## Guia de tokens
+
+As contagens de tokens no Contexta são aproximações. O uso real depende do tamanho do contexto, dos arquivos incluídos, da compressão, da saída visível e do comportamento do modelo.
+
+| Tamanho aproximado | Heurística |
+|---|---|
+| `< 8k` | Normalmente cabe na maioria das sessões de chat/coding |
+| `8k - 32k` | Faixa confortável para muitos usos comuns |
+| `32k - 128k` | Melhor para sessões com contexto maior |
+| `> 128k` | Vale considerar long-context ou um export mais enxuto |
+
+Tokens visíveis são só parte da história. Latência também pode variar por tamanho de saída, esforço de raciocínio e provedor.
+
+---
+
+## Compilar a partir do código
 
 ```bash
 # Windows
@@ -140,7 +250,12 @@ python mdcodebrief.py /caminho/para/projeto --diff --copy -p "Revise este PR"
 chmod +x build.sh && ./build.sh
 ```
 
-Para gerar o executável standalone, o projeto usa **PyInstaller** como dependência opcional de empacotamento. Ele não é necessário para executar o `mdcodebrief` pelo código-fonte.
+Saídas geradas:
+
+- `dist/contexta.exe`
+- `dist/contexta-safe/contexta-safe.exe`
+
+O build `contexta-safe` em pasta costuma ser a melhor opção quando o Windows é mais agressivo com heurística de segurança no formato onefile.
 
 ---
 
@@ -150,13 +265,16 @@ Para gerar o executável standalone, o projeto usa **PyInstaller** como dependê
 python -m unittest discover tests/
 ```
 
+Suite atual: **61 testes automatizados**
+
 ---
 
-## Segurança
+## Segurança e comportamento
 
-- **Somente leitura** — nunca modifica os arquivos do projeto
-- Sem acesso à rede, sem telemetria e sem dependências externas de runtime
-- Limites rígidos evitam scans infinitos
+- Somente leitura: não modifica o projeto escaneado
+- Sem telemetria e sem necessidade de rede na aplicação
+- Limites de scan evitam exportações descontroladas
+- Blobs binários/base64 embutidos são omitidos dos excerpts focados
 
 ---
 
@@ -164,13 +282,9 @@ python -m unittest discover tests/
 
 Veja [CONTRIBUTING.md](CONTRIBUTING.md)
 
----
-
 ## Changelog
 
 Veja [CHANGELOG.md](CHANGELOG.md)
-
----
 
 ## Licença
 

@@ -212,21 +212,22 @@ def get_git_changed_files(root: Path, staged_only: bool = False) -> list[Path] |
 # FILE READING
 # ─────────────────────────────────────────────────────────────────────────────
 
-def read_file_safe(filepath: Path) -> tuple[str, bool]:
+def read_file_safe(filepath: Path) -> tuple[str, bool, int]:
     """
     Read a text file safely, trying multiple encodings.
-    Returns (content, was_truncated).
+    Returns (content, was_truncated, total_line_count).
     """
     for enc in ("utf-8", "utf-8-sig", "latin-1", "cp1252", "utf-16"):
         try:
             raw = filepath.read_text(encoding=enc, errors="strict")
             lines = raw.splitlines()
             if len(lines) > MAX_FILE_LINES:
-                return "\n".join(lines[:MAX_FILE_LINES]), True
-            return raw, False
+                return "\n".join(lines[:MAX_FILE_LINES]), True, len(lines)
+            return raw, False, len(lines)
         except (UnicodeDecodeError, PermissionError):
             continue
-    return "_[Binary or unreadable file — content omitted]_", False
+    fallback = "_[Binary or unreadable file — content omitted]_"
+    return fallback, False, len(fallback.splitlines())
 
 
 # ─────────────────────────────────────────────────────────────────────────────

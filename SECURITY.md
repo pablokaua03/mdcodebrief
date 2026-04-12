@@ -19,9 +19,10 @@ You can expect a response within 7 days.
 
 ## Security notes
 
-- `mdcodebrief` is a **read-only** tool — it never modifies, deletes or uploads any files
+- `Contexta` is a **read-only** tool — it never modifies, deletes or uploads any files
 - It makes **no network requests** of any kind
 - It has **zero external runtime dependencies**
 - On some Linux distributions, `tkinter` may come from a system package such as `python3-tk`
 - Optional executable builds use **PyInstaller**, which is a packaging dependency rather than a runtime dependency
+- The `onedir` build (`contexta-safe`) is recommended when Windows SmartScreen or antivirus heuristics are too aggressive with the single-file executable
 - All processing happens locally on your machine

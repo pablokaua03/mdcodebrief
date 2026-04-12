@@ -1,8 +1,8 @@
 <div align="center">
 
-# ⚡ mdcodebrief
+# Contexta
 
-**Scan any project folder and generate a structured `.md` file with full code context, ready to paste into AI chat interfaces. Zero runtime dependencies, GUI + CLI.**
+**Curated context packs for debugging, onboarding, reviews, refactors, and AI handoffs. Contexta analyzes the project first, then exports the most useful context for the job.**
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -12,121 +12,233 @@
 
 <br>
 
-[<img src="https://img.shields.io/badge/⬇%20Download%20for%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest/download/mdcodebrief.exe)
+[<img src="https://img.shields.io/badge/Download%20for%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest/download/contexta.exe)
 &nbsp;&nbsp;
 [<img src="https://img.shields.io/badge/All%20Releases-333?style=for-the-badge&logo=github&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest)
 
-> No installation needed. Just download and run.
+> No installation needed. Download and run, or launch from source with Python.
 
 <br>
 
-![mdcodebrief screenshot](assets/assets/screenshot.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/white.png">
+  <img alt="Contexta interface preview" src="assets/dark.png">
+</picture>
 
 </div>
 
 ---
 
-## What is it?
+## What Contexta exports
 
-`mdcodebrief` is a lightweight desktop tool that recursively scans a project folder and produces a single, well-structured Markdown file containing:
+Contexta builds a context pack instead of dumping files blindly. Depending on pack, mode, and task, the output can include:
 
-- A **visual directory tree** of the entire project
-- Every **source file** with syntax-highlighted code blocks
-- Relative paths, file sizes, and automatic truncation for large files
+- A project summary with detected technologies, entry points, likely purpose, and central modules
+- A read-this-first path through the repository
+- A main execution flow narrative for the most relevant runtime path
+- Core files, supporting files, related tests, and changed-file context
+- Relationship maps and hotspot/risk notes
+- A curated Markdown payload ready to paste into ChatGPT, Claude, Gemini, Copilot, or another coding assistant
 
-The output is designed to be **pasted directly into AI chat interfaces** (ChatGPT, Claude, Gemini, etc.) so the model has complete, unambiguous context about your project — no copy-pasting individual files.
-
----
-
-## When to use it
-
-| Situation | How |
-|---|---|
-| **Ask an AI to review your code** | Run on the full project, paste the `.md` |
-| **Code review / PR analysis** | Use `--diff` to export only changed files |
-| **Onboarding a new dev** | Generate a full snapshot of the codebase |
-| **Debug with AI help** | Add `-p "Find the bug in the auth flow"` |
-| **Refactor with AI** | Add `-p "Refactor this to TypeScript"` |
-
-> **When NOT to use:** projects with thousands of files or large generated assets — use `--diff` mode or point to a specific subfolder instead.
+Full mode still preserves raw code payloads. The intelligence is added around the payload, not instead of it.
 
 ---
 
-## Features
+## Why it is useful
+
+Contexta is designed for the annoying part of AI-assisted coding: deciding what the model actually needs to see.
+
+Use it when you want to:
+
+- explain a project quickly to another developer or model
+- review a change set with nearby context
+- debug with changed files and likely hotspots already grouped
+- onboard into an unfamiliar codebase
+- hand off work between AI tools without rebuilding context from scratch
+
+---
+
+## Main features
 
 | Feature | Detail |
 |---|---|
-| 🖥️ **Visual GUI** | Clean interface with dark/light theme toggle |
-| ⌨️ **CLI mode** | Run headless for scripting or CI pipelines |
-| 🌳 **Directory tree** | ASCII tree view at the top of every output file |
-| 🎨 **Syntax highlighting** | 50+ extensions mapped to correct Markdown fences |
-| 🔒 **Smart filtering** | Skips `node_modules`, `__pycache__`, `.git`, build dirs, lock files, binaries |
-| 📋 **Native `.gitignore` support** | Reads and respects the project's `.gitignore` automatically |
-| 📋 **Copy to clipboard** | One click (GUI) or `--copy` flag (CLI) |
-| 🧮 **Token estimation** | Shows `~Xk tokens` with model recommendations |
-| 🔀 **Git diff mode** | `--diff` — only scan files changed since last commit |
-| 🤖 **AI instruction injection** | Prepend a custom prompt to the output |
-| 🌗 **Dark / Light theme** | Toggle in the header — instant switch |
-| 🧪 **Automated tests** | 36 unit tests covering scanner, renderer, gitignore parsing, token estimation, and diff safety |
-| 📏 **Safety limits** | Files truncated at 1 000 lines; scan stops at 2 000 files |
-| 🌍 **Cross-platform** | Windows, macOS, Linux |
-| 📦 **Zero runtime dependencies** | Only the Python standard library is required to run from source |
+| GUI + CLI | Desktop workflow for everyday use, plus command-line usage for scripting |
+| Context packs | `custom`, `chatgpt`, `onboarding`, `pr_review`, `debug`, `backend`, `frontend`, `changes_related` |
+| Context modes | `full`, `debug`, `feature`, `diff`, `onboarding`, `refactor` |
+| Compression modes | `full`, `balanced`, `focused`, `signatures` |
+| Task-aware output | Shapes the export for explanation, bug reports, code review, refactors, tests, dead-code hunting, or AI handoff |
+| Relationship map | Highlights local dependencies and likely related tests |
+| Changed Files + Context | Pulls changed files up and expands into nearby relevant code |
+| Selection reasons | Explains why each file was included in the payload |
+| Read This First + Main Flow | Makes the pack easier for humans and models to navigate |
+| Token guidance | Adds rough token estimates for planning, not exact promises |
+| PyInstaller builds | Ships `contexta.exe` and `contexta-safe` build outputs |
+
+---
+
+## Packs, modes, and compression
+
+### Context packs
+
+- `onboarding`: start here when you need to understand a project fast
+- `pr_review`: emphasizes review-oriented context and recent changes
+- `debug`: pushes suspicious and changed areas upward
+- `backend` / `frontend`: bias selection toward that side of the app
+- `changes_related`: starts from git changes and expands outward
+- `custom`: leaves all fine-tuning to you
+
+### Context modes
+
+- `full`: fastest orientation plus the full selected code payload
+- `debug`: favors hotspots, changed files, and likely failure paths
+- `feature`: biases selection around the focus query
+- `diff`: starts from git changes and nearby context
+- `onboarding`: richer explanatory structure for first-time reading
+- `refactor`: emphasizes central modules and connected files
+
+### Compression modes
+
+- `full`: keeps fuller file bodies and prioritizes fidelity
+- `balanced`: mixes narrative, excerpts, and full payloads for important files
+- `focused`: trims aggressively around the current task/focus
+- `signatures`: structural overview for quick scanning
 
 ---
 
 ## Quickstart
 
-### Option A — Download the executable (no Python needed)
+### Option A: Windows executable
 
-1. Download `mdcodebrief.exe` from the button above
-2. Double-click to run
+1. Download `contexta.exe`
+2. Run it
+3. Pick a project folder
+4. Choose a pack, mode, task, and compression level
+5. Create the pack and paste the Markdown into your AI tool
 
-> ⚠️ **Windows SmartScreen warning:** Click **"More info"** → **"Run anyway"**. This is normal for open-source tools without a paid code signing certificate. You can also run directly from source with `python mdcodebrief.py`.
+> Windows SmartScreen can warn on unsigned open-source executables. If that happens, the `dist/contexta-safe/` onedir build is usually less troublesome.
 
-### Option B — Run from source
+### Option B: Run from source
 
 ```bash
 git clone https://github.com/pablokaua03/mdcodebrief.git
 cd mdcodebrief
-python mdcodebrief.py
+python contexta.py
 ```
 
-`mdcodebrief` itself uses only the Python standard library. On some Linux distributions, `tkinter` is provided as a separate system package such as `python3-tk`.
-
-### CLI mode
-
-```bash
-python mdcodebrief.py /path/to/project
-python mdcodebrief.py /path/to/project -p "Find the memory leak"
-python mdcodebrief.py /path/to/project --diff --copy
-python mdcodebrief.py /path/to/project --diff --copy -p "Review this PR"
-```
+Contexta itself uses only the Python standard library at runtime. Some Linux environments may require a separate `tkinter` system package such as `python3-tk`.
 
 ---
 
-## CLI options
+## CLI examples
+
+```bash
+python contexta.py /path/to/project
+python contexta.py /path/to/project --pack onboarding
+python contexta.py /path/to/project --mode debug --task bug_report --focus "auth flow"
+python contexta.py /path/to/project --pack pr_review --diff --copy
+python contexta.py /path/to/project --task ai_handoff --compression balanced --focus "theme"
+```
+
+### CLI options
 
 | Flag | Description |
 |---|---|
 | `--hidden` | Include hidden folders/files |
-| `--unknown` | Include files with unrecognised extensions |
-| `--diff` | Git diff mode — changed files only |
-| `--staged` | Staged files only (`git diff --cached`) |
-| `-p / --prompt` | Inject an AI instruction at the top |
+| `--unknown` | Include files with unrecognized extensions |
+| `--diff` | Prefer git diff context |
+| `--staged` | Use staged changes only |
+| `-p / --prompt` | Add a custom instruction or goal |
+| `--focus` | Bias scoring, ordering, excerpts, and related context around a topic |
+| `--mode` | Context selection mode |
+| `--ai` | AI target profile |
+| `--task` | Task profile |
+| `--compression` | Compression strategy |
+| `--pack` | Preset context pack |
 | `-c / --copy` | Copy output to clipboard |
 | `-o / --output` | Custom output path |
 | `--version` | Print version |
 
 ---
 
-## Token estimation guide
+## Prompting tips by AI target
 
-| Tokens | Recommended models |
+### Generic LLM
+
+- Usually works well:
+  - define the task clearly
+  - specify the output format you want
+- Usually avoid:
+  - vague goals with no definition of done
+  - asking for many unrelated things at once
+- Rough usage profile:
+  - good default for most workflows
+  - prompt length, output length, and latency vary a lot by provider
+
+### ChatGPT
+
+- Usually works well:
+  - clear task definition
+  - concise but precise instructions
+  - short examples when they help clarify the format
+- Usually avoid:
+  - asking for hidden chain-of-thought
+  - mixing architecture analysis and implementation work without priority
+- Rough usage profile:
+  - responds well to explicit structure
+  - visible output size and reasoning effort can affect latency significantly
+
+### Claude
+
+- Usually works well:
+  - structured requests
+  - architecture context plus a clearly scoped goal
+  - ranked findings or recommendations
+- Usually avoid:
+  - broad prompts with no prioritization
+  - forcing exhaustive output when a focused answer is better
+- Rough usage profile:
+  - comfortable with richer context
+  - still benefits from a short summary of what matters most
+
+### Gemini
+
+- Usually works well:
+  - broader project context plus explicit priorities
+  - clear formatting instructions
+- Usually avoid:
+  - assuming long context removes the need for prompt structure
+  - mixing unrelated tasks into one export
+- Rough usage profile:
+  - handles large packs well
+  - output quality still depends on task clarity and scope
+
+### Copilot / coding agents
+
+- Usually works well:
+  - explicit files, constraints, and expected final state
+  - implementation-oriented asks with acceptance criteria
+- Usually avoid:
+  - open-ended requests with no target behavior
+  - asking for hidden reasoning instead of a brief rationale
+- Rough usage profile:
+  - strongest for concrete coding tasks
+  - smaller, well-scoped asks usually produce better results
+
+---
+
+## Token guidance
+
+Token counts in Contexta are rough estimates. Actual usage depends on the selected files, compression level, visible output, and the model's own runtime behavior.
+
+| Rough size | Heuristic |
 |---|---|
-| < 8k | Most models |
-| 8k – 32k | GPT-4o · Claude Sonnet · Gemini Flash |
-| 32k – 128k | Claude 200k · Gemini 1.5 Pro |
-| > 128k | Gemini 1.5 Pro 1M |
+| `< 8k` | Usually manageable for most chat and coding tools |
+| `8k - 32k` | Often comfortable for mainstream model sessions |
+| `32k - 128k` | Better suited to larger-context sessions |
+| `> 128k` | Consider long-context workflows or a tighter export |
+
+Visible output tokens are only part of the experience. Latency can also increase because of reasoning effort, output size, and provider-specific behavior.
 
 ---
 
@@ -140,7 +252,12 @@ python mdcodebrief.py /path/to/project --diff --copy -p "Review this PR"
 chmod +x build.sh && ./build.sh
 ```
 
-Building the standalone executable uses **PyInstaller** as an optional packaging dependency. It is not required to run `mdcodebrief` from source.
+Build outputs:
+
+- `dist/contexta.exe`
+- `dist/contexta-safe/contexta-safe.exe`
+
+The `contexta-safe` onedir build is often the better choice when Windows heuristics are aggressive toward onefile executables.
 
 ---
 
@@ -150,13 +267,16 @@ Building the standalone executable uses **PyInstaller** as an optional packaging
 python -m unittest discover tests/
 ```
 
+Current suite: **61 automated tests**
+
 ---
 
-## Security
+## Security and behavior
 
-- **Read-only** — never modifies your project files
-- No network access, no telemetry, and no external runtime dependencies
-- Hard limits prevent runaway scans
+- Read-only: Contexta does not modify the scanned project
+- No runtime telemetry or network requirement in the app itself
+- Scan limits prevent runaway exports
+- Embedded binary/blob payloads are intentionally suppressed in focused excerpts
 
 ---
 
@@ -164,13 +284,9 @@ python -m unittest discover tests/
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 
----
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md)
-
----
 
 ## License
 

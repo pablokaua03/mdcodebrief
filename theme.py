@@ -9,51 +9,51 @@ import tkinter as tk
 # ─────────────────────────────────────────────────────────────────────────────
 
 DARK: dict[str, str] = {
-    "bg":          "#0b1220",
-    "bg2":         "#121c2e",
-    "card":        "#101a2b",
-    "card2":       "#162236",
-    "input":       "#0d1727",
-    "border":      "#24344c",
-    "border2":     "#324764",
-    "accent":      "#4da3ff",
-    "accent_dk":   "#2f7ed8",
-    "green":       "#1fb87a",
-    "green_dk":    "#159963",
-    "violet":      "#51627d",
-    "violet_dk":   "#44536b",
+    "bg":          "#091512",
+    "bg2":         "#0f1f1b",
+    "card":        "#11231d",
+    "card2":       "#173029",
+    "input":       "#0d1b18",
+    "border":      "#244339",
+    "border2":     "#326053",
+    "accent":      "#44d39a",
+    "accent_dk":   "#27b27c",
+    "green":       "#44d39a",
+    "green_dk":    "#1fa56f",
+    "violet":      "#4f6f66",
+    "violet_dk":   "#435e56",
     "amber":       "#f59e0b",
     "red":         "#ef4444",
-    "text":        "#edf3ff",
-    "text2":       "#b7c7de",
-    "text3":       "#7588a6",
-    "tag_bg":      "#15263c",
-    "tag_fg":      "#9dc8ff",
+    "text":        "#eefaf5",
+    "text2":       "#bdd9d0",
+    "text3":       "#7aa196",
+    "tag_bg":      "#173129",
+    "tag_fg":      "#86e7bf",
     "white":       "#ffffff",
     "mode":        "dark",
 }
 
 LIGHT: dict[str, str] = {
-    "bg":          "#eff3f8",
-    "bg2":         "#e4ebf4",
+    "bg":          "#eef7f3",
+    "bg2":         "#e2efe9",
     "card":        "#ffffff",
-    "card2":       "#f7f9fc",
+    "card2":       "#f7fbf9",
     "input":       "#ffffff",
-    "border":      "#d2dbe7",
-    "border2":     "#bac8d9",
-    "accent":      "#2c7ed6",
-    "accent_dk":   "#1f68b7",
-    "green":       "#159963",
-    "green_dk":    "#117d52",
-    "violet":      "#5e6f86",
-    "violet_dk":   "#4f5f75",
+    "border":      "#d2e2db",
+    "border2":     "#bdd1c8",
+    "accent":      "#1f9f6d",
+    "accent_dk":   "#197f57",
+    "green":       "#1f9f6d",
+    "green_dk":    "#197f57",
+    "violet":      "#5d746c",
+    "violet_dk":   "#4d615a",
     "amber":       "#d97706",
     "red":         "#dc2626",
-    "text":        "#13243a",
-    "text2":       "#51657f",
-    "text3":       "#8193aa",
-    "tag_bg":      "#e7f0fb",
-    "tag_fg":      "#2c7ed6",
+    "text":        "#143127",
+    "text2":       "#4f6d63",
+    "text3":       "#7e968d",
+    "tag_bg":      "#e0f2ea",
+    "tag_fg":      "#1f9f6d",
     "white":       "#ffffff",
     "mode":        "light",
 }
@@ -117,10 +117,10 @@ def reg(widget, cfg_fn):
 # FONTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-FH  = ("Segoe UI Semibold", 17)  # hero title
-FL  = ("Segoe UI Semibold", 11)  # section label
-FS  = ("Segoe UI", 9)            # small / caption
-FM  = ("Consolas", 9)            # mono
-FB  = ("Segoe UI Semibold", 10)  # button primary
-FBS = ("Segoe UI Semibold", 9)   # button secondary
-FT  = ("Segoe UI", 8)            # tag / badge
+FH  = ("Segoe UI Variable Display Semibold", 19)  # hero title
+FL  = ("Segoe UI Variable Display Semibold", 12)  # section label
+FS  = ("Segoe UI Variable Text", 10)              # small / caption
+FM  = ("Cascadia Mono", 10)                       # mono
+FB  = ("Segoe UI Variable Display Semibold", 10)  # button primary
+FBS = ("Segoe UI Variable Display Semibold", 9)   # button secondary
+FT  = ("Segoe UI Variable Text", 9)               # tag / badge

@@ -1,5 +1,5 @@
 """
-utils.py - Shared helpers for mdcodebrief.
+utils.py - Shared helpers for Contexta.
 """
 
 import os
