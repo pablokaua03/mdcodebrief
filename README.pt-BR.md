@@ -12,9 +12,9 @@
 
 <br>
 
-[<img src="https://img.shields.io/badge/Download%20para%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest/download/contexta.exe)
+[<img src="https://img.shields.io/badge/Download%20para%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" height="42">](https://github.com/pablokaua03/Contexta/releases/latest/download/contexta.exe)
 &nbsp;&nbsp;
-[<img src="https://img.shields.io/badge/Todas%20as%20Releases-333?style=for-the-badge&logo=github&logoColor=white" height="42">](https://github.com/pablokaua03/mdcodebrief/releases/latest)
+[<img src="https://img.shields.io/badge/Todas%20as%20Releases-333?style=for-the-badge&logo=github&logoColor=white" height="42">](https://github.com/pablokaua03/Contexta/releases/latest)
 
 > Sem instalação. É baixar e usar, ou executar pelo código-fonte com Python.
 
@@ -119,8 +119,8 @@ Use o Contexta quando você quer:
 ### Opção B: rodar pelo código-fonte
 
 ```bash
-git clone https://github.com/pablokaua03/mdcodebrief.git
-cd mdcodebrief
+git clone https://github.com/pablokaua03/Contexta.git
+cd Contexta
 python contexta.py
 ```
 
@@ -162,72 +162,28 @@ python contexta.py /caminho/para/projeto --task ai_handoff --compression balance
 ## Dicas de prompting por IA alvo
 
 ### Generic LLM
-
-- Geralmente funciona bem:
-  - tarefa clara
-  - formato de saída explícito
-- Geralmente evite:
-  - pedido vago sem definição de pronto
-  - muitas tarefas sem prioridade
-- Perfil de uso aproximado:
-  - bom padrão para a maioria dos casos
-  - custo e latência variam bastante por provedor
+- Geralmente funciona bem: tarefa clara, formato de saída explícito
+- Geralmente evite: pedido vago sem definição de pronto
 
 ### ChatGPT
-
-- Geralmente funciona bem:
-  - instruções curtas, mas específicas
-  - definição clara do resultado esperado
-  - exemplo curto quando ajuda
-- Geralmente evite:
-  - pedir chain-of-thought oculto
-  - misturar análise arquitetural e implementação sem prioridade
-- Perfil de uso aproximado:
-  - responde bem a estrutura explícita
-  - tamanho da saída e esforço de raciocínio podem aumentar a latência
+- Geralmente funciona bem: instruções curtas mas específicas, resultado esperado claro
+- Geralmente evite: misturar análise arquitetural e implementação sem prioridade
 
 ### Claude
-
-- Geralmente funciona bem:
-  - pedido estruturado
-  - contexto de arquitetura + objetivo claro
-  - saída organizada por seções
-- Geralmente evite:
-  - prompt amplo demais sem ordenação
-  - pedir exaustividade quando uma resposta ranqueada basta
-- Perfil de uso aproximado:
-  - lida bem com contexto mais rico
-  - ainda se beneficia de um resumo curto no topo
+- Geralmente funciona bem: pedido estruturado, contexto de arquitetura + objetivo claro
+- Geralmente evite: prompt amplo demais sem ordenação
 
 ### Gemini
-
-- Geralmente funciona bem:
-  - contexto mais amplo com prioridades explícitas
-  - instruções claras de formatação
-- Geralmente evite:
-  - assumir que janela grande dispensa estrutura
-  - juntar várias tarefas sem relação em uma só rodada
-- Perfil de uso aproximado:
-  - confortável com packs maiores
-  - qualidade ainda depende muito de clareza e escopo
+- Geralmente funciona bem: contexto mais amplo com prioridades explícitas
+- Geralmente evite: assumir que janela grande dispensa estrutura
 
 ### Copilot / agentes de código
-
-- Geralmente funciona bem:
-  - arquivos, restrições e estado final bem definidos
-  - pedidos orientados à implementação
-- Geralmente evite:
-  - objetivo aberto sem comportamento-alvo
-  - pedir raciocínio oculto em vez de uma justificativa breve
-- Perfil de uso aproximado:
-  - melhor para tarefas concretas de código
-  - funciona melhor com escopo pequeno e critérios claros
+- Geralmente funciona bem: arquivos, restrições e estado final bem definidos
+- Geralmente evite: objetivo aberto sem comportamento-alvo
 
 ---
 
 ## Guia de tokens
-
-As contagens de tokens no Contexta são aproximações. O uso real depende do tamanho do contexto, dos arquivos incluídos, da compressão, da saída visível e do comportamento do modelo.
 
 | Tamanho aproximado | Heurística |
 |---|---|
@@ -235,8 +191,6 @@ As contagens de tokens no Contexta são aproximações. O uso real depende do ta
 | `8k - 32k` | Faixa confortável para muitos usos comuns |
 | `32k - 128k` | Melhor para sessões com contexto maior |
 | `> 128k` | Vale considerar long-context ou um export mais enxuto |
-
-Tokens visíveis são só parte da história. Latência também pode variar por tamanho de saída, esforço de raciocínio e provedor.
 
 ---
 
@@ -249,13 +203,6 @@ Tokens visíveis são só parte da história. Latência também pode variar por 
 # Linux / macOS
 chmod +x build.sh && ./build.sh
 ```
-
-Saídas geradas:
-
-- `dist/contexta.exe`
-- `dist/contexta-safe/contexta-safe.exe`
-
-O build `contexta-safe` em pasta costuma ser a melhor opção quando o Windows é mais agressivo com heurística de segurança no formato onefile.
 
 ---
 
