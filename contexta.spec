@@ -1,0 +1,65 @@
+# -*- mode: python ; coding: utf-8 -*-
+
+import sys
+
+IS_WINDOWS = sys.platform.startswith('win')
+
+
+def _trim_tk_payload(datas):
+    trimmed = []
+    for entry in datas:
+        dest_name, src_name, typecode = entry
+        norm = str(dest_name).replace("\\", "/").lower()
+
+        if norm.startswith("_tcl_data/tzdata/"):
+            continue
+        if norm.startswith("_tcl_data/msgs/") and not norm.endswith(("/en.msg", "/pt.msg", "/pt_br.msg")):
+            continue
+        if norm.startswith("_tk_data/msgs/") and not norm.endswith(("/en.msg", "/pt.msg")):
+            continue
+        if norm.startswith("_tk_data/images/"):
+            continue
+        if norm.startswith("tcl8/8.4/") or norm.startswith("tcl8/8.5/"):
+            continue
+
+        trimmed.append(entry)
+    return trimmed
+
+a = Analysis(
+    ['contexta.py'],
+    pathex=[],
+    binaries=[],
+    datas=[('icon.ico', '.')],
+    hiddenimports=[],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=['brand_assets'],
+    noarchive=False,
+    optimize=0,
+)
+a.datas = _trim_tk_payload(a.datas)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.datas,
+    [],
+    name='contexta',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=False,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+    version='version_info.txt' if IS_WINDOWS else None,
+    icon=['icon.ico'],
+)

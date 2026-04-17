@@ -13,5 +13,4 @@ venv/
 Thumbs.db
 *.swp
 resume - *.md
-*.spec
 tests/.tmp/
