@@ -7,8 +7,8 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
-[![Zero Runtime Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-Zero-brightgreen)]()
-[![Version](https://img.shields.io/badge/Version-1.5.0-purple)]()
+[![Runtime Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-Contexta%201.6-blue)]()
+[![Version](https://img.shields.io/badge/Version-1.6.0-purple)]()
 
 <br>
 
@@ -18,7 +18,7 @@
 &nbsp;&nbsp;
 [<img src="https://img.shields.io/badge/All%20Releases-333?style=for-the-badge&logo=github&logoColor=white" height="42">](https://github.com/pablokaua03/Contexta/releases/latest)
 
-> No installation needed. Download and run, or launch from source with Python.
+> Portable on Windows, installable on Linux, and runnable from source with Python.
 
 <br>
 
@@ -75,8 +75,9 @@ Use it when you want to:
 | Changed Files + Context | Pulls changed files up and expands into nearby relevant code |
 | Selection reasons | Explains why each file was included in the payload |
 | Read This First + Main Flow | Makes the pack easier for humans and models to navigate |
-| Token guidance | Adds rough token estimates for planning, not exact promises |
-| PyInstaller builds | Ships a native executable for the current platform via `build.bat` or `build.sh` |
+| Token guidance | Uses `tiktoken`-backed estimates for tighter compression and safer pack sizing |
+| Syntax-aware analysis | Uses tree-sitter plus heuristic fallback to extract symbols across multiple languages |
+| Build pipeline | Uses Nuitka for Windows and PyInstaller plus a Linux install bundle for Unix builds |
 
 ---
 
@@ -114,19 +115,19 @@ Use it when you want to:
 
 ### Option A: Windows executable
 
-1. Download `contexta.exe`
+1. Download `contexta.exe` or `contexta-setup.exe`
 2. Run it
 3. Pick a project folder
 4. Choose a pack, mode, task, and compression level
 5. Create the pack and paste the Markdown into your AI tool
 
-> Windows SmartScreen can warn on unsigned open-source executables.
+> Windows SmartScreen can still warn on unsigned open-source executables.
 
 ### Option B: Linux executable
 
-1. Download `contexta-linux`
-2. Run `chmod +x contexta-linux`
-3. Run `./contexta-linux`
+1. Download `contexta-linux.tar.gz`
+2. Extract it
+3. Run `./install.sh` for a user-local install, or launch the bundled `contexta` binary directly
 
 > Some Linux environments may require `python3-tk` if running from source instead.
 
@@ -138,7 +139,13 @@ cd Contexta
 python contexta.py
 ```
 
-Contexta itself uses only the Python standard library at runtime. Some Linux environments may require a separate `tkinter` system package such as `python3-tk`.
+From source, install the runtime dependencies first:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Some Linux environments may still require a separate `tkinter` system package such as `python3-tk`.
 
 ---
 
@@ -220,14 +227,18 @@ chmod +x build.sh && ./build.sh
 ```
 
 Important:
-- Build the Windows executable on Windows and the Linux executable on Linux. PyInstaller is not a reliable Windows-to-Linux cross-compiler.
+- Build the Windows executable on Windows and the Linux package on Linux.
+- Windows builds use Nuitka and require Visual Studio C++ Build Tools.
+- Linux builds create both `dist/contexta` and `dist/contexta-linux.tar.gz`.
 - On Debian/Ubuntu, install `python3-tk` before building.
 
 Build outputs:
 - Windows: `dist/contexta.exe`
+- Windows installer: `dist/contexta-setup.exe` when Inno Setup is installed
 - Linux / macOS: `dist/contexta`
+- Linux install bundle: `dist/contexta-linux.tar.gz`
 
-If you want the Linux binary without setting up Linux locally, run the GitHub Actions workflow `.github/workflows/build-linux.yml` and download the `contexta-linux` artifact.
+If you want the Linux package without setting up Linux locally, run the GitHub Actions workflow `.github/workflows/build-linux.yml` and download the `contexta-linux` artifact.
 
 ---
 
@@ -237,7 +248,7 @@ If you want the Linux binary without setting up Linux locally, run the GitHub Ac
 python -m unittest discover tests/
 ```
 
-Current suite: **61 automated tests**
+Current suite: run `python -m unittest discover tests/` to see the latest total.
 
 ---
 
@@ -247,6 +258,7 @@ Current suite: **61 automated tests**
 - No runtime telemetry or network requirement in the app itself
 - Scan limits prevent runaway exports
 - Embedded binary/blob payloads are intentionally suppressed in focused excerpts
+- Runtime dependencies are local analysis helpers (`pathspec`, `charset-normalizer`, `tiktoken`, `tree-sitter`, and `rapidfuzz`), not cloud services
 
 ---
 

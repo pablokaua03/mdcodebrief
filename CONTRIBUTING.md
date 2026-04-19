@@ -4,10 +4,10 @@ Thank you for considering a contribution!
 
 ## Ground rules
 
-- The tool must remain **zero runtime dependency** for source usage (Python standard library only)
-- Optional packaging tools such as **PyInstaller** must stay out of runtime code paths
+- Runtime dependencies should stay small and high-leverage
+- Optional packaging tools such as **Nuitka** or **PyInstaller** must stay out of runtime code paths
 - Python **3.10+** syntax is acceptable
-- Every PR must keep the project runnable with `python contexta.py`
+- Every PR must keep the project runnable with `python contexta.py` after `python -m pip install -r requirements.txt`
 
 ## How to contribute
 

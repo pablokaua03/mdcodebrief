@@ -2,13 +2,13 @@
 
 # Contexta
 
-**Packs de contexto curados para debug, onboarding, review, refactor e handoff entre IAs. O Contexta analisa o projeto primeiro e depois exporta o contexto mais útil para a tarefa.**
+**Packs de contexto curados para debug, onboarding, review, refactor e handoff entre IAs. O Contexta analisa o projeto primeiro e exporta o contexto mais útil para a tarefa.**
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Plataforma](https://img.shields.io/badge/Plataforma-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
-[![Zero Dependências de Runtime](https://img.shields.io/badge/Depend%C3%AAncias%20de%20Runtime-Zero-brightgreen)]()
-[![Versão](https://img.shields.io/badge/Vers%C3%A3o-1.5.0-purple)]()
+[![Dependências de Runtime](https://img.shields.io/badge/Depend%C3%AAncias%20de%20Runtime-Contexta%201.6-blue)]()
+[![Versão](https://img.shields.io/badge/Vers%C3%A3o-1.6.0-purple)]()
 
 <br>
 
@@ -18,7 +18,7 @@
 &nbsp;&nbsp;
 [<img src="https://img.shields.io/badge/Todas%20as%20Releases-333?style=for-the-badge&logo=github&logoColor=white" height="42">](https://github.com/pablokaua03/Contexta/releases/latest)
 
-> Sem instalação. É baixar e usar, ou executar pelo código-fonte com Python.
+> Portátil no Windows, instalável no Linux e executável a partir do código-fonte com Python.
 
 <br>
 
@@ -34,180 +34,67 @@
 
 ## O que o Contexta exporta
 
-O Contexta não só despeja arquivos. Ele monta um pack de contexto pensado para leitura humana e para uso com IA. Dependendo do pack, do modo e da tarefa, a saída pode incluir:
+Em vez de despejar arquivos cegamente, o Contexta monta um pack de contexto. Dependendo do pack, do modo e da tarefa, a saída pode incluir:
 
-- resumo do projeto com tecnologias, entry points, propósito provável e módulos centrais
+- resumo do projeto com stack, entry points, propósito provável e módulos centrais
 - seção `Read This First` para orientar a leitura
-- fluxo principal de execução (`Main Flow`)
+- fluxo principal de execução
 - arquivos centrais, arquivos de apoio, testes relacionados e contexto de arquivos alterados
-- mapa de relacionamentos e hotspots/riscos
+- relationship map, riscos e pontos de impacto
 - payload em Markdown pronto para colar no ChatGPT, Claude, Gemini, Copilot ou outra ferramenta
 
-No modo `full`, o código continua presente. A inteligência do Contexta entra em volta do payload, não no lugar dele.
+No modo `full`, o código continua presente. A inteligência entra em volta do payload, não no lugar dele.
 
 ---
 
-## Onde ele ajuda de verdade
-
-Use o Contexta quando você quer:
-
-- explicar um projeto rapidamente para outra pessoa ou outro modelo
-- revisar mudanças com contexto próximo
-- debugar com arquivos alterados e hotspots já organizados
-- fazer onboarding em uma base desconhecida
-- passar trabalho de uma IA para outra sem reconstruir contexto do zero
-
----
-
-## Recursos principais
+## Principais recursos
 
 | Recurso | Detalhe |
 |---|---|
-| GUI + CLI | Interface desktop para uso diário e linha de comando para script/automação |
-| Context Packs | `custom`, `chatgpt`, `onboarding`, `pr_review`, `risk_review`, `debug`, `backend`, `frontend`, `changes_related` |
-| Context Modes | `full`, `debug`, `feature`, `diff`, `onboarding`, `refactor` |
-| Compression Modes | `full`, `balanced`, `focused`, `signatures` |
-| Saída orientada por tarefa | Molda o pack para explicação, bug report, code review, análise de risco, refactor, testes, dead code ou AI handoff |
-| Project fingerprinting | Detecta stack, frameworks e tipo de projeto antes de selecionar arquivos |
-| Relationship Map | Mostra dependências locais e testes provavelmente relacionados |
-| Changed Files + Context | Puxa arquivos alterados e expande para o contexto mais relevante |
-| Selection reasons | Explica por que cada arquivo entrou |
-| Read This First + Main Flow | Facilita leitura rápida por humanos e por modelos |
-| Estimativa de tokens | Mostra uma noção aproximada de custo/tamanho |
-| Builds com PyInstaller | Gera um executável nativo para a plataforma atual via `build.bat` ou `build.sh` |
-
----
-
-## Packs, modos e compressão
-
-### Context packs
-
-- `onboarding`: melhor ponto de partida para entender uma base nova
-- `pr_review`: enfatiza revisão e mudanças recentes
-- `risk_review`: destaca hotspots de regressão, módulos de alto impacto, cobertura ausente e pontos fracos de manutenção
-- `debug`: sobe arquivos suspeitos e alterados
-- `backend` / `frontend`: puxam mais contexto para esse lado da aplicação
-- `changes_related`: começa no git diff e expande para o entorno
-- `custom`: deixa tudo nas suas mãos
-
-### Context modes
-
-- `full`: orientação rápida + payload completo dos arquivos selecionados
-- `debug`: prioriza hotspots, mudanças recentes e caminhos de falha
-- `feature`: sesga a seleção em torno do `focus`
-- `diff`: parte das mudanças do git e do contexto vizinho
-- `onboarding`: gera uma leitura mais explicativa
-- `refactor`: destaca módulos centrais e arquivos conectados
-
-### Compression modes
-
-- `full`: preserva mais corpo bruto dos arquivos
-- `balanced`: mistura narrativa, trechos e payload completo dos mais importantes
-- `focused`: corta agressivamente em favor da tarefa atual
-- `signatures`: visão estrutural rápida com pouco token
+| GUI + CLI | Fluxo desktop para uso diário e CLI para automação |
+| Packs de contexto | `custom`, `chatgpt`, `onboarding`, `pr_review`, `risk_review`, `debug`, `backend`, `frontend`, `changes_related` |
+| Modos de contexto | `full`, `debug`, `feature`, `diff`, `onboarding`, `refactor` |
+| Compressão | `full`, `balanced`, `focused`, `signatures` |
+| Fingerprinting | Detecta stack, framework e tipo de projeto antes de selecionar arquivos |
+| Análise syntax-aware | Usa tree-sitter com fallback heurístico para extrair símbolos em várias linguagens |
+| Estimativa de tokens | Usa `tiktoken` para estimar melhor o tamanho dos packs |
+| Relationship map | Destaca dependências locais e testes provavelmente relacionados |
+| Build multiplataforma | Usa Nuitka no Windows e PyInstaller mais bundle instalável no Linux |
 
 ---
 
 ## Início rápido
 
-### Opção A: executável do Windows
+### Windows
 
-1. Baixe `contexta.exe`
+1. Baixe `contexta.exe` ou `contexta-setup.exe`
 2. Execute
 3. Escolha a pasta do projeto
 4. Selecione pack, modo, tarefa e compressão
 5. Gere o pack e cole o Markdown na IA
 
-> O Windows pode implicar com executáveis open-source sem assinatura.
+> O Windows ainda pode alertar sobre executáveis open-source sem assinatura.
 
-### Opção B: executável do Linux
+### Linux
 
-1. Baixe `contexta-linux`
-2. Execute `chmod +x contexta-linux`
-3. Execute `./contexta-linux`
+1. Baixe `contexta-linux.tar.gz`
+2. Extraia o pacote
+3. Rode `./install.sh` para instalar localmente ou execute o binário `contexta` direto
 
-> Em algumas distros Linux, o `tkinter` pode vir como pacote separado, como `python3-tk`.
-
-### Opção C: rodar pelo código-fonte
+### Rodando pelo fonte
 
 ```bash
 git clone https://github.com/pablokaua03/Contexta.git
 cd Contexta
+python -m pip install -r requirements.txt
 python contexta.py
 ```
 
-O Contexta em si usa apenas a biblioteca padrão do Python em runtime. Em algumas distros Linux, o `tkinter` pode vir como pacote separado, como `python3-tk`.
+Em algumas distros Linux, o `tkinter` pode vir como pacote separado, como `python3-tk`.
 
 ---
 
-## Exemplos de CLI
-
-```bash
-python contexta.py /caminho/para/projeto
-python contexta.py /caminho/para/projeto --pack onboarding
-python contexta.py /caminho/para/projeto --pack risk_review
-python contexta.py /caminho/para/projeto --mode debug --task bug_report --focus "auth flow"
-python contexta.py /caminho/para/projeto --pack pr_review --diff --copy
-python contexta.py /caminho/para/projeto --task ai_handoff --compression balanced --focus "theme"
-```
-
-### Opções da CLI
-
-| Flag | Descrição |
-|---|---|
-| `--hidden` | Inclui pastas/arquivos ocultos |
-| `--unknown` | Inclui extensões não reconhecidas |
-| `--diff` | Prefere contexto baseado em git diff |
-| `--staged` | Usa apenas mudanças staged |
-| `-p / --prompt` | Adiciona uma instrução ou objetivo customizado |
-| `--focus` | Influencia score, ordem, excerpts e contexto relacionado |
-| `--mode` | Modo de seleção |
-| `--ai` | Perfil de IA alvo |
-| `--task` | Perfil de tarefa |
-| `--compression` | Estratégia de compressão |
-| `--pack` | Pack predefinido |
-| `-c / --copy` | Copia a saída para o clipboard |
-| `-o / --output` | Caminho de saída customizado |
-| `--version` | Exibe a versão |
-
----
-
-## Dicas de prompting por IA alvo
-
-### Generic LLM
-- Geralmente funciona bem: tarefa clara, formato de saída explícito
-- Geralmente evite: pedido vago sem definição de pronto
-
-### ChatGPT
-- Geralmente funciona bem: instruções curtas mas específicas, resultado esperado claro
-- Geralmente evite: misturar análise arquitetural e implementação sem prioridade
-
-### Claude
-- Geralmente funciona bem: pedido estruturado, contexto de arquitetura + objetivo claro
-- Geralmente evite: prompt amplo demais sem ordenação
-
-### Gemini
-- Geralmente funciona bem: contexto mais amplo com prioridades explícitas
-- Geralmente evite: assumir que janela grande dispensa estrutura
-
-### Copilot / agentes de código
-- Geralmente funciona bem: arquivos, restrições e estado final bem definidos
-- Geralmente evite: objetivo aberto sem comportamento-alvo
-
----
-
-## Guia de tokens
-
-| Tamanho aproximado | Heurística |
-|---|---|
-| `< 8k` | Normalmente cabe na maioria das sessões de chat/coding |
-| `8k - 32k` | Faixa confortável para muitos usos comuns |
-| `32k - 128k` | Melhor para sessões com contexto maior |
-| `> 128k` | Vale considerar long-context ou um export mais enxuto |
-
----
-
-## Compilar a partir do código
+## Build a partir do código
 
 ```bash
 # Windows
@@ -218,33 +105,38 @@ chmod +x build.sh && ./build.sh
 ```
 
 Importante:
-- Gere o executável de Windows no Windows e o executável de Linux no Linux. O PyInstaller não faz cross-compile confiável de Windows para Linux.
-- Em Debian/Ubuntu, instale `python3-tk` antes do build.
+
+- gere o build do Windows no Windows e o pacote Linux no Linux
+- o build do Windows usa Nuitka e exige Visual Studio C++ Build Tools
+- o build do Linux gera `dist/contexta` e também `dist/contexta-linux.tar.gz`
+- em Debian/Ubuntu, instale `python3-tk` antes do build
 
 Saídas do build:
-- Windows: `dist/contexta.exe`
-- Linux / macOS: `dist/contexta`
 
-Se você quiser o binário Linux sem preparar Linux localmente, rode o workflow do GitHub Actions `.github/workflows/build-linux.yml` e baixe o artefato `contexta-linux`.
+- Windows: `dist/contexta.exe`
+- Instalador do Windows: `dist/contexta-setup.exe` quando o Inno Setup estiver instalado
+- Linux / macOS: `dist/contexta`
+- Bundle instalável do Linux: `dist/contexta-linux.tar.gz`
 
 ---
 
-## Rodar os testes
+## Testes
 
 ```bash
 python -m unittest discover tests/
 ```
 
-Suite atual: **61 testes automatizados**
+Use esse comando para ver a contagem mais recente da suíte.
 
 ---
 
 ## Segurança e comportamento
 
-- Somente leitura: não modifica o projeto escaneado
-- Sem telemetria e sem necessidade de rede na aplicação
-- Limites de scan evitam exportações descontroladas
-- Blobs binários/base64 embutidos são omitidos dos excerpts focados
+- o Contexta é read-only: não modifica o projeto analisado
+- não envia telemetria nem exige rede para funcionar
+- limites de scan evitam exports descontrolados
+- payloads binários/base64 continuam suprimidos em excerpts focados
+- as dependências de runtime são auxiliares locais de análise, não serviços externos
 
 ---
 

@@ -4,8 +4,8 @@
 
 | Version | Supported |
 |---|---|
-| 1.5.x | Yes |
-| < 1.5.0 | No |
+| 1.6.x | Yes |
+| < 1.6.0 | No |
 
 ## Reporting a Vulnerability
 
@@ -21,7 +21,7 @@ You can expect a response within 7 days.
 
 - `Contexta` is a read-only tool; it does not modify, delete, or upload project files
 - It makes no network requests of any kind
-- It has zero external runtime dependencies
+- It uses local runtime dependencies for parsing, token estimation, and repository analysis
 - On some Linux distributions, `tkinter` may come from a system package such as `python3-tk`
-- Optional executable builds use `PyInstaller`, which is a packaging dependency rather than a runtime dependency
+- Windows builds use `Nuitka`; Linux packaging uses `PyInstaller`
 - All processing happens locally on your machine
