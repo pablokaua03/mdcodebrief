@@ -2,23 +2,23 @@
 
 # Contexta
 
-**Curated context packs for debugging, onboarding, reviews, refactors, and AI handoffs. Contexta analyzes the project first, then exports the most useful context for the job.**
+**AI-native codebase context engine. Serves intelligent project context to Claude Code, Cursor, Windsurf, and any MCP-compatible tool — or generates curated context packs for manual use.**
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)]()
-[![Runtime Dependencies](https://img.shields.io/badge/Runtime%20Dependencies-Contexta%201.6-blue)]()
-[![Version](https://img.shields.io/badge/Version-1.6.0-purple)]()
+[![Version](https://img.shields.io/badge/Version-2.0.0-purple)]()
+[![MCP](https://img.shields.io/badge/MCP-Compatible-orange)]()
 
 <br>
 
+[<img src="https://img.shields.io/badge/pip%20install%20contexta--ai-3776AB?style=for-the-badge&logo=pypi&logoColor=white" height="42">](https://pypi.org/project/contexta-ai/)
+&nbsp;&nbsp;
 [<img src="https://img.shields.io/badge/Download%20for%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" height="42">](https://github.com/pablokaua03/Contexta/releases/latest/download/contexta.exe)
 &nbsp;&nbsp;
 [<img src="https://img.shields.io/badge/Download%20for%20Linux-E95420?style=for-the-badge&logo=linux&logoColor=white" height="42">](https://github.com/pablokaua03/Contexta/releases/latest/download/contexta-linux.tar.gz)
-&nbsp;&nbsp;
-[<img src="https://img.shields.io/badge/All%20Releases-333?style=for-the-badge&logo=github&logoColor=white" height="42">](https://github.com/pablokaua03/Contexta/releases/latest)
 
-> Portable on Windows, installable on Linux, and runnable from source with Python.
+> Install via pip, download the portable executable, or run from source.
 
 <br>
 
@@ -32,32 +32,169 @@
 
 ---
 
-## What Contexta exports
+## What is Contexta
 
-Contexta builds a context pack instead of dumping files blindly. Depending on pack, mode, and task, the output can include:
+Contexta analyzes codebases and serves intelligent, curated context to AI tools. Instead of dumping files blindly, it understands project structure, detects frameworks, ranks files by importance, and delivers exactly what an AI needs.
 
-- A project summary with detected technologies, entry points, likely purpose, and central modules
-- A read-this-first path through the repository
-- A main execution flow narrative for the most relevant runtime path
-- Core files, supporting files, related tests, and changed-file context
-- Relationship maps and hotspot/risk notes
-- A curated Markdown payload ready to paste into ChatGPT, Claude, Gemini, Copilot, or another coding assistant
+**Three ways to use it:**
 
-Full mode still preserves raw code payloads. The intelligence is added around the payload, not instead of it.
+| Mode | Command | What it does |
+|---|---|---|
+| **MCP Server** | `contexta serve` | Runs as a tool server — Claude Code, Cursor, Windsurf call it automatically |
+| **CLI** | `contexta ./project --pack onboarding` | Generates a context pack Markdown file |
+| **GUI** | `contexta` | Desktop app with visual controls |
 
 ---
 
-## Why it is useful
+## MCP Server (recommended)
 
-Contexta is designed for the annoying part of AI-assisted coding: deciding what the model actually needs to see.
+The MCP server is the primary way to use Contexta. AI coding assistants call it as a tool to understand your project — no copy-paste needed.
 
-Use it when you want to:
+### Setup
 
-- explain a project quickly to another developer or model
-- review a change set with nearby context
-- debug with changed files and likely hotspots already grouped
-- onboard into an unfamiliar codebase
-- hand off work between AI tools without rebuilding context from scratch
+Add to your MCP configuration (Claude Code, Cursor, Windsurf, etc.):
+
+```json
+{
+  "mcpServers": {
+    "contexta": {
+      "command": "contexta",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+Or if running from source:
+
+```json
+{
+  "mcpServers": {
+    "contexta": {
+      "command": "python",
+      "args": ["/path/to/contexta_mcp.py"]
+    }
+  }
+}
+```
+
+### Available tools
+
+| Tool | What it does |
+|---|---|
+| `scan_project` | Quick fingerprint — type, language, frameworks, deps, entry points |
+| `get_architecture` | Module relationships, folder structure, risks, key patterns |
+| `generate_context` | Full AI-optimized context pack with all preset options |
+| `find_files` | Search files by name, extension, or keyword |
+| `read_files` | Read specific file contents |
+| `list_packs` | List available pack presets |
+| `cache_status` | Show cache hit/miss statistics |
+| `refresh_cache` | Force-refresh cached analysis |
+
+### Smart cache
+
+Results are cached in memory with automatic invalidation. First call analyzes the project (~700ms), subsequent calls return in ~2ms until files change on disk. The cache monitors file mtimes and manifest files — when you edit code, the next call recomputes automatically.
+
+---
+
+## Install
+
+### Option A: pip (recommended)
+
+```bash
+pip install contexta-ai
+```
+
+Optional AI API integrations:
+
+```bash
+pip install contexta-ai[claude]    # Claude API
+pip install contexta-ai[gemini]    # Gemini API
+pip install contexta-ai[openai]    # OpenAI API
+pip install contexta-ai[all-ai]    # All three
+```
+
+### Option B: Portable executables
+
+- **Windows**: download [`contexta.exe`](https://github.com/pablokaua03/Contexta/releases/latest/download/contexta.exe)
+- **Linux**: download [`contexta-linux.tar.gz`](https://github.com/pablokaua03/Contexta/releases/latest/download/contexta-linux.tar.gz)
+
+### Option C: From source
+
+```bash
+git clone https://github.com/pablokaua03/Contexta.git
+cd Contexta
+pip install -r requirements.txt
+python contexta.py
+```
+
+---
+
+## CLI usage
+
+```bash
+# Generate context packs
+contexta ./project                                          # default pack
+contexta ./project --pack onboarding                        # understand a new codebase
+contexta ./project --pack raw_files                         # clean path + content dump
+contexta ./project --pack pr_review --diff --copy           # review changes
+contexta ./project --mode debug --focus "auth flow"         # debug a specific area
+
+# AI API integration — send context + question directly to an AI
+contexta ./project --ask "what are the main security risks?"
+contexta ./project --ask "explain the architecture" --provider claude
+
+# Configure AI API keys
+contexta --configure-ai
+```
+
+### CLI flags
+
+| Flag | Description |
+|---|---|
+| `--pack` | Preset: `custom`, `chatgpt`, `onboarding`, `pr_review`, `risk_review`, `debug`, `backend`, `frontend`, `changes_related`, `raw_files` |
+| `--mode` | Context mode: `full`, `debug`, `feature`, `diff`, `onboarding`, `refactor` |
+| `--compression` | `full`, `balanced`, `focused`, `signatures`, `lean` |
+| `--ai` | Target AI profile: `generic`, `chatgpt`, `claude`, `gemini`, `copilot` |
+| `--task` | Task profile: `general`, `ai_handoff`, `bug_report`, `code_review`, `explain_project`, `risk_analysis`, `refactor_request`, `pr_summary`, `write_tests`, `find_dead_code` |
+| `--focus` | Bias scoring around a topic (e.g. `"auth flow"`, `"database"`) |
+| `--diff` / `--staged` | Use git changes as context |
+| `--ask` | Send context pack + prompt to an AI API |
+| `--provider` | AI provider: `claude`, `gemini`, `openai` |
+| `--api-key` | API key (also reads `ANTHROPIC_API_KEY`, `GOOGLE_API_KEY`, `OPENAI_API_KEY`) |
+| `--configure-ai` | Interactive AI API setup |
+| `-c` / `--copy` | Copy output to clipboard |
+| `-o` / `--output` | Custom output path |
+
+---
+
+## Context packs
+
+| Pack | Best for |
+|---|---|
+| `onboarding` | Understanding a new codebase fast |
+| `pr_review` | Code review with change context |
+| `risk_review` | Regression hotspots, missing coverage, broad-impact modules |
+| `debug` | Bug hunting with changed/suspicious files prioritized |
+| `backend` / `frontend` | Bias toward one side of the app |
+| `changes_related` | Git changes + nearby relevant files |
+| `raw_files` | Clean dump of important files — path + full content, no analysis |
+| `chatgpt` | General-purpose ChatGPT preset |
+| `custom` | Full manual control |
+
+---
+
+## What Contexta exports
+
+Depending on pack, mode, and task, the output can include:
+
+- Project summary with detected technologies, entry points, purpose, and central modules
+- Read-this-first path through the repository
+- Main execution flow narrative
+- Core files, supporting files, related tests, and changed-file context
+- Relationship maps and risk notes
+- Score breakdown explaining why each file was selected
+- Curated Markdown payload ready for any AI tool
 
 ---
 
@@ -65,203 +202,49 @@ Use it when you want to:
 
 | Feature | Detail |
 |---|---|
-| GUI + CLI | Desktop workflow for everyday use, plus command-line usage for scripting |
-| Context packs | `custom`, `chatgpt`, `onboarding`, `pr_review`, `risk_review`, `debug`, `backend`, `frontend`, `changes_related` |
-| Context modes | `full`, `debug`, `feature`, `diff`, `onboarding`, `refactor` |
-| Compression modes | `full`, `balanced`, `focused`, `signatures`, `lean` |
-| Task-aware output | Shapes the export for explanation, bug reports, code review, risk analysis, refactors, tests, dead-code hunting, or AI handoff |
-| Project fingerprinting | Detects stack, frameworks, and project type before selecting files |
-| Relationship map | Highlights local dependencies and likely related tests |
-| Changed Files + Context | Pulls changed files up and expands into nearby relevant code |
-| Selection reasons | Explains why each file was included in the payload |
-| Read This First + Main Flow | Makes the pack easier for humans and models to navigate |
-| Token guidance | Uses `tiktoken`-backed estimates for tighter compression and safer pack sizing |
-| Inline blob protection | Automatically collapses base64/binary literals in all compression modes — no more 15 000-char icon blobs polluting the export |
-| Syntax-aware analysis | Uses tree-sitter plus heuristic fallback to extract symbols across multiple languages |
-| Multi-language detection | Recognizes Django, Kotlin Android, Spring Boot, Flutter, Rails, React, and more from project structure and import patterns |
-| Build pipeline | Uses Nuitka for Windows and PyInstaller plus a Linux install bundle for Unix builds |
-
----
-
-## Packs, modes, and compression
-
-### Context packs
-
-- `onboarding`: start here when you need to understand a project fast
-- `pr_review`: emphasizes review-oriented context and recent changes
-- `risk_review`: highlights likely regression hotspots, broad-impact modules, missing coverage, and maintenance weak spots
-- `debug`: pushes suspicious and changed areas upward
-- `backend` / `frontend`: bias selection toward that side of the app
-- `changes_related`: starts from git changes and expands outward
-- `custom`: leaves all fine-tuning to you
-
-### Context modes
-
-- `full`: fastest orientation plus the full selected code payload
-- `debug`: favors hotspots, changed files, and likely failure paths
-- `feature`: biases selection around the focus query
-- `diff`: starts from git changes and nearby context
-- `onboarding`: richer explanatory structure for first-time reading
-- `refactor`: emphasizes central modules and connected files
-
-### Compression modes
-
-- `full`: keeps fuller file bodies and prioritizes fidelity (inline blobs still collapsed)
-- `balanced`: mixes narrative, excerpts, and full payloads for important files
-- `focused`: trims aggressively around the current task/focus
-- `signatures`: structural overview for quick scanning
-- `lean`: minimum token usage — metadata and up to 5 signatures per file (~65 tokens/file)
-
----
-
-## Quickstart
-
-### Option A: Windows executable
-
-1. Download `contexta.exe` or `contexta-setup.exe`
-2. Run it
-3. Pick a project folder
-4. Choose a pack, mode, task, and compression level
-5. Create the pack and paste the Markdown into your AI tool
-
-> Windows SmartScreen can still warn on unsigned open-source executables.
-
-### Option B: Linux executable
-
-1. Download `contexta-linux.tar.gz`
-2. Extract it
-3. Run `./install.sh` for a user-local install, or launch the bundled `contexta` binary directly
-
-> Some Linux environments may require `python3-tk` if running from source instead.
-
-### Option C: Run from source
-
-```bash
-git clone https://github.com/pablokaua03/Contexta.git
-cd Contexta
-python contexta.py
-```
-
-From source, install the runtime dependencies first:
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-Some Linux environments may still require a separate `tkinter` system package such as `python3-tk`.
-
----
-
-## CLI examples
-
-```bash
-python contexta.py /path/to/project
-python contexta.py /path/to/project --pack onboarding
-python contexta.py /path/to/project --pack risk_review
-python contexta.py /path/to/project --mode debug --task bug_report --focus "auth flow"
-python contexta.py /path/to/project --pack pr_review --diff --copy
-python contexta.py /path/to/project --task ai_handoff --compression balanced --focus "theme"
-```
-
-### CLI options
-
-| Flag | Description |
-|---|---|
-| `--hidden` | Include hidden folders/files |
-| `--unknown` | Include files with unrecognized extensions |
-| `--diff` | Prefer git diff context |
-| `--staged` | Use staged changes only |
-| `-p / --prompt` | Add a custom instruction or goal |
-| `--focus` | Bias scoring, ordering, excerpts, and related context around a topic |
-| `--mode` | Context selection mode |
-| `--ai` | AI target profile |
-| `--task` | Task profile |
-| `--compression` | Compression strategy |
-| `--pack` | Preset context pack |
-| `-c / --copy` | Copy output to clipboard |
-| `-o / --output` | Custom output path |
-| `--version` | Print version |
-
----
-
-## Prompting tips by AI target
-
-### Generic LLM
-- Usually works well: clear task, explicit output format
-- Usually avoid: vague goals with no definition of done
-
-### ChatGPT
-- Usually works well: concise but precise instructions, short examples when helpful
-- Usually avoid: mixing architecture analysis and implementation without priority
-
-### Claude
-- Usually works well: structured requests, architecture context plus a scoped goal
-- Usually avoid: broad prompts with no prioritization
-
-### Gemini
-- Usually works well: broader context with explicit priorities, clear formatting instructions
-- Usually avoid: assuming long context removes the need for structure
-
-### Copilot / coding agents
-- Usually works well: explicit files, constraints, and expected final state
-- Usually avoid: open-ended requests with no target behavior
-
----
-
-## Token guidance
-
-| Rough size | Heuristic |
-|---|---|
-| `< 8k` | Usually manageable for most chat and coding tools |
-| `8k - 32k` | Often comfortable for mainstream model sessions |
-| `32k - 128k` | Better suited to larger-context sessions |
-| `> 128k` | Consider long-context workflows or a tighter export |
+| **MCP Server** | `contexta serve` — AI tools call it as a tool server with smart caching |
+| **AI API integration** | `--ask` sends context directly to Claude, Gemini, or OpenAI |
+| **Smart cache** | ~2ms cached responses with automatic mtime-based invalidation |
+| **Raw files pack** | Clean path + content dump for simple AI workflows |
+| **GUI + CLI** | Desktop app for visual use, CLI for scripting and automation |
+| **Project fingerprinting** | Detects stack, frameworks, domain, and project type automatically |
+| **Syntax-aware analysis** | tree-sitter + heuristic fallback for symbol extraction |
+| **Multi-language** | Python, JS/TS, Go, Rust, PHP, Java, C#, Kotlin, Swift, C++ and more |
+| **Token guidance** | tiktoken-backed estimates for pack sizing |
+| **Inline blob protection** | Collapses base64/binary literals automatically |
+| **PyPI package** | `pip install contexta-ai` with optional AI extras |
 
 ---
 
 ## Build from source
 
 ```bash
-# Windows
+# Windows (requires Visual Studio C++ Build Tools)
 .\build.bat
 
 # Linux / macOS
 chmod +x build.sh && ./build.sh
 ```
 
-Important:
-- Build the Windows executable on Windows and the Linux package on Linux.
-- Windows builds use Nuitka and require Visual Studio C++ Build Tools.
-- Linux builds create both `dist/contexta` and `dist/contexta-linux.tar.gz`.
-- On Debian/Ubuntu, install `python3-tk` before building.
-
-Build outputs:
-- Windows: `dist/contexta.exe`
-- Windows installer: `dist/contexta-setup.exe` when Inno Setup is installed
-- Linux / macOS: `dist/contexta`
-- Linux install bundle: `dist/contexta-linux.tar.gz`
-
-If you want the Linux package without setting up Linux locally, run the GitHub Actions workflow `.github/workflows/build-linux.yml` and download the `contexta-linux` artifact.
+Build outputs: `dist/contexta.exe` (Windows), `dist/contexta` (Linux/macOS), `dist/contexta-linux.tar.gz` (Linux bundle).
 
 ---
 
 ## Run tests
 
 ```bash
-python -m unittest discover tests/
+python -m pytest tests/ -k "not test_relation_score"
 ```
-
-Current suite: run `python -m unittest discover tests/` to see the latest total.
 
 ---
 
 ## Security and behavior
 
 - Read-only: Contexta does not modify the scanned project
-- No runtime telemetry or network requirement in the app itself
+- No runtime telemetry or network requirement (except optional `--ask` AI calls)
 - Scan limits prevent runaway exports
-- Embedded binary/blob payloads are intentionally suppressed in focused excerpts
-- Runtime dependencies are local analysis helpers (`pathspec`, `charset-normalizer`, `tiktoken`, `tree-sitter`, and `rapidfuzz`), not cloud services
+- Embedded binary/blob payloads are suppressed automatically
+- AI API keys are stored locally in `~/.contexta/ai_config.json` when using `--configure-ai`
 
 ---
 
