@@ -2,7 +2,7 @@
 setlocal EnableExtensions EnableDelayedExpansion
 echo.
 echo  =========================================
-echo   Contexta 1.6 - Build Windows Executable
+echo   Contexta 2.0 - Build Windows Executable
 echo  =========================================
 echo.
 

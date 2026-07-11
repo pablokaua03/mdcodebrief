@@ -4,3 +4,9 @@ tiktoken>=0.12,<1
 tree-sitter>=0.25,<0.26
 tree-sitter-language-pack>=1.6,<2
 rapidfuzz>=3.14,<4
+mcp[cli]>=1.9,<2
+
+# Optional: AI API integration (install the ones you need)
+# anthropic>=0.52,<1       # For Claude
+# google-genai>=1.14,<2    # For Gemini
+# openai>=1.82,<2          # For OpenAI/ChatGPT

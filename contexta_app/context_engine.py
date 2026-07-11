@@ -67,6 +67,7 @@ PACK_OPTIONS: dict[str, str] = {
     "backend": "Backend Pack",
     "frontend": "Frontend Pack",
     "changes_related": "Changes + Related",
+    "raw_files": "Raw Files Dump",
 }
 
 PACK_DEFAULTS: dict[str, dict[str, str]] = {
@@ -119,6 +120,12 @@ PACK_DEFAULTS: dict[str, dict[str, str]] = {
         "context_mode": "debug",
         "task_profile": "code_review",
         "compression": "focused",
+    },
+    "raw_files": {
+        "ai_profile": "generic",
+        "context_mode": "full",
+        "task_profile": "general",
+        "compression": "full",
     },
 }
 

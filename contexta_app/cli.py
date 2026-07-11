@@ -49,7 +49,7 @@ def run_cli() -> None:
         prog="contexta",
         description="Generate a curated project context pack from a codebase.",
     )
-    parser.add_argument("project", help="Path to the project folder")
+    parser.add_argument("project", nargs="?", default=None, help="Path to the project folder")
     parser.add_argument("-o", "--output", help="Output .md file path")
     parser.add_argument("--hidden", action="store_true", help="Include hidden folders/files")
     parser.add_argument("--unknown", action="store_true", help="Include files with unrecognised extensions")
@@ -64,7 +64,26 @@ def run_cli() -> None:
     parser.add_argument("--pack", choices=sorted(PACK_OPTIONS), default="custom", help="Preset context pack")
     parser.add_argument("-c", "--copy", action="store_true", help="Copy output to clipboard after saving")
     parser.add_argument("--version", action="version", version=f"Contexta {__version__}")
+
+    # AI API integration
+    parser.add_argument("--ask", default="", help="Send context pack + this prompt to an AI API and print the response")
+    parser.add_argument("--provider", choices=["claude", "gemini", "openai"], default="", help="AI provider (claude, gemini, openai)")
+    parser.add_argument("--api-key", default="", help="API key (overrides env var and saved config)")
+    parser.add_argument("--model", default="", help="Override the default model for the chosen provider")
+    parser.add_argument("--configure-ai", action="store_true", help="Interactive setup: save AI provider, API key, and model to ~/.contexta/ai_config.json")
+
     args = parser.parse_args()
+
+    # Handle --configure-ai (no project required)
+    if args.configure_ai:
+        from contexta_app.ai_client import configure_interactive
+
+        configure_interactive()
+        return
+
+    # project is required for all other operations
+    if args.project is None:
+        parser.error("the following arguments are required: project")
 
     project_path = Path(args.project).resolve()
     if not project_path.is_dir():
@@ -96,3 +115,74 @@ def run_cli() -> None:
 
     if args.copy:
         copy_to_clipboard(markdown)
+
+    # AI API: send context pack + prompt if --ask was provided
+    if args.ask:
+        from contexta_app.ai_client import (
+            AIConfig,
+            DEFAULT_MODELS,
+            PROVIDER_LABELS,
+            get_available_providers,
+            resolve_api_key,
+            send_to_ai,
+        )
+
+        # Determine provider: explicit flag > saved config
+        provider = args.provider
+        if not provider:
+            cfg = AIConfig.load()
+            provider = cfg.provider
+        if not provider:
+            available = get_available_providers()
+            if available:
+                provider = available[0]
+            else:
+                print(
+                    "\nError: No AI provider configured. Use --provider, --configure-ai, "
+                    "or install an SDK (pip install anthropic / google-genai / openai).",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+
+        # Check SDK availability
+        available = get_available_providers()
+        if provider not in available:
+            pkg = {"claude": "anthropic", "gemini": "google-genai", "openai": "openai"}[provider]
+            print(
+                f"\nError: SDK for '{provider}' is not installed. Run: pip install {pkg}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
+        # Resolve API key
+        api_key = resolve_api_key(provider, args.api_key)
+        if not api_key:
+            env_var = {"claude": "ANTHROPIC_API_KEY", "gemini": "GOOGLE_API_KEY", "openai": "OPENAI_API_KEY"}[provider]
+            print(
+                f"\nError: No API key found for '{provider}'. Provide via --api-key, "
+                f"env var {env_var}, or run --configure-ai.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
+        # Resolve model
+        model = args.model
+        if not model:
+            cfg = AIConfig.load()
+            if cfg.provider == provider and cfg.model:
+                model = cfg.model
+            else:
+                model = DEFAULT_MODELS.get(provider, "")
+
+        label = PROVIDER_LABELS.get(provider, provider)
+        safe_print(f"\nSending to {label} ({model})...")
+
+        try:
+            response = send_to_ai(markdown, args.ask, provider, api_key, model)
+            safe_print(f"\n{'=' * 60}")
+            safe_print(f"AI Response ({label}):")
+            safe_print("=" * 60)
+            safe_print(response)
+        except Exception as exc:
+            print(f"\nError from {label}: {exc}", file=sys.stderr)
+            sys.exit(1)

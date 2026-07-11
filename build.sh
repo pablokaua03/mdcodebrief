@@ -24,7 +24,7 @@ fi
 
 echo ""
 echo " ========================================="
-echo "  Contexta 1.6 - Build Unix Executable"
+echo "  Contexta 2.0 - Build Unix Executable"
 echo " ========================================="
 echo ""
 

@@ -43,6 +43,7 @@ PACK_HELP = {
     "frontend": "Biases the selection toward interface flows, views, widgets, and user-facing assets.",
     "backend": "Biases the selection toward non-UI application logic, data flow, and integration-heavy modules.",
     "changes_related": "Starts from recent changes and expands outward to the most relevant nearby files.",
+    "raw_files": "Dumps the most important files with path + full content. Clean and simple — ideal for pasting into any AI.",
 }
 
 MODE_HELP = {
