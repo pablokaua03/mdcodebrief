@@ -2,12 +2,11 @@ name: Build Linux Executable
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "v*"
+  release:
+    types: [published]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-linux:
@@ -35,9 +34,15 @@ jobs:
           chmod +x build.sh
           ./build.sh
 
-      - name: Upload Linux package
+      - name: Upload Linux package (artifact)
         uses: actions/upload-artifact@v4
         with:
           name: contexta-linux
           path: dist/contexta-linux.tar.gz
           if-no-files-found: error
+
+      - name: Attach to GitHub Release
+        if: github.event_name == 'release'
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/contexta-linux.tar.gz --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

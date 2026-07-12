@@ -117,6 +117,7 @@ pip install contexta-ai[all-ai]    # Todos os três
 ### Opção B: Executáveis portáteis
 
 - **Windows**: baixe [`contexta.exe`](https://github.com/pablokaua03/Contexta/releases/latest/download/contexta.exe)
+  > **Windows 11:** clique com botão direito no `.exe` baixado → Propriedades → marque **Desbloquear** → OK antes de executar.
 - **Linux**: baixe [`contexta-linux.tar.gz`](https://github.com/pablokaua03/Contexta/releases/latest/download/contexta-linux.tar.gz)
 
 ### Opção C: Código-fonte
